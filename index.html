@@ -35,7 +35,7 @@ button{border:none;border-radius:12px;padding:11px 16px;font-size:14px;cursor:po
       <button class="primary" onclick="showPage('p1')">入力をはじめる</button>
       <button class="secondary" onclick="loadLocal()">前回の入力を読み込む</button>
     </div>
-    <div class="driveBox">入力後は「JSON保存して提出」を押すと、提出用JSONを保存したあとGoogle Driveの提出先を開きます。提出先URLはHTML内で設定できます。</div>
+    <div class="driveBox">入力後は「院内へ送信」で直接送信できます。必要に応じて「JSON保存して提出」を押すと、提出用JSONを保存したあとGoogle Driveの提出先を開きます。</div>
   </div>
 
   <div class="stepNav">
@@ -96,15 +96,15 @@ button{border:none;border-radius:12px;padding:11px 16px;font-size:14px;cursor:po
     <h2 class="title">入力内容の確認</h2>
     <p class="desc">この内容を保存できます。JSON保存（提出用）は院内版で読み込みやすい形式に合わせています。保存後は指定の Google Drive へアップロードしてください。</p>
     <div class="summary" id="summaryBox"></div>
-    <div class="footerActions"><button class="secondary" onclick="showPage('p3')">戻る</button><div class="right"><button class="secondary" onclick="saveLocal()">保存</button><button class="primary" onclick="saveJsonAndOpenDrive()">JSON保存して提出</button><button class="secondary" onclick="exportHTML()">HTML保存</button><button class="secondary" onclick="showPage('p5'); renderDone();">完了へ</button></div></div>
+    <div class="footerActions"><button class="secondary" onclick="showPage('p3')">戻る</button><div class="right"><button class="secondary" onclick="saveLocal()">保存</button><button class="primary" onclick="submitToClinic()">院内へ送信</button><button class="secondary" onclick="saveJsonAndOpenDrive()">JSON保存して提出</button><button class="secondary" onclick="exportHTML()">HTML保存</button><button class="secondary" onclick="showPage('p5'); renderDone();">完了へ</button></div></div>
   </section>
 
   <section id="p5" class="page">
     <h2 class="title">入力完了</h2>
-    <p class="desc">入力後は JSON を保存し、指定の Google Drive へアップロードしてください。必要に応じてこの画面も受付でお見せください。</p>
+    <p class="desc">入力後は「院内へ送信」で直接送信できます。必要に応じて JSON 保存後に Google Drive へアップロードしてください。</p>
     <div class="note"><div class="ok">入力が完了しました。</div><div id="doneText" style="margin-top:8px;"></div><div style="margin-top:8px;">Google Drive の提出先URLや共有フォルダ名は、院内から案内されたものをご利用ください。</div></div>
     <div class="section"><h3>おすすめの提出方法</h3><div class="desc" style="margin:0">1. JSON保存（提出用）を押す<br>2. 保存した JSON ファイルを指定の Google Drive へアップロードする<br>3. 来院時に必要があればこの画面を受付で見せる</div></div>
-    <div class="footerActions"><button class="secondary" onclick="showPage('p4')">戻る</button><div class="right"><button class="secondary" onclick="saveLocal()">保存</button><button class="primary" onclick="saveJsonAndOpenDrive()">JSON保存して提出</button><button class="secondary" onclick="exportHTML()">HTML保存</button></div></div>
+    <div class="footerActions"><button class="secondary" onclick="showPage('p4')">戻る</button><div class="right"><button class="secondary" onclick="saveLocal()">保存</button><button class="primary" onclick="submitToClinic()">院内へ送信</button><button class="secondary" onclick="saveJsonAndOpenDrive()">JSON保存して提出</button><button class="secondary" onclick="exportHTML()">HTML保存</button></div></div>
   </section>
 </div>
 
@@ -112,6 +112,7 @@ button{border:none;border-radius:12px;padding:11px 16px;font-size:14px;cursor:po
 const storageKey = 'myopia_patient_input_v1';
 const embeddedInitialData = null;
 const DRIVE_SUBMIT_URL = 'https://drive.google.com/drive/folders/1aQvh2o6PILrZkMB-Ipe4MZrPX6xG_nx1?usp=sharing'; // 提出先Google Drive共有フォルダ
+const API_URL = 'https://script.google.com/macros/s/AKfycbzBKI0hPCdKy3qxfx-CTmr87-p42R7j9NvHOyma21o_ITD5w5IPOVDSLHNEWkWt7LbL/exec';
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.stepBtn').forEach(b=>b.classList.remove('active'));
@@ -210,6 +211,50 @@ function saveJsonAndOpenDrive(){
   setTimeout(()=>{
     window.open(DRIVE_SUBMIT_URL, '_blank');
   }, 500);
+}
+async function submitToClinic(){
+  const data = {
+    patientName: document.querySelector('[data-store="patientName"]')?.value || '',
+    patientId: document.querySelector('[data-store="patientId"]')?.value || '',
+    age: document.querySelector('[data-store="age"]')?.value || '',
+    entryDate: document.querySelector('[data-store="entryDate"]')?.value || '',
+    outdoorHours: document.querySelector('[data-store="outdoorHours"]')?.value || '',
+    bookHours: document.querySelector('[data-store="bookHours"]')?.value || '',
+    bookDistance: document.querySelector('[data-store="bookDistance"]')?.value || '',
+    phoneHours: document.querySelector('[data-store="phoneHours"]')?.value || '',
+    phoneDistance: document.querySelector('[data-store="phoneDistance"]')?.value || '',
+    pcHours: document.querySelector('[data-store="pcHours"]')?.value || '',
+    pcDistance: document.querySelector('[data-store="pcDistance"]')?.value || '',
+    sleepAmPm: document.querySelector('[data-store="sleepAmPm"]')?.value || '',
+    sleepTime: document.querySelector('[data-store="sleepTime"]')?.value || '',
+    treatmentType: document.querySelector('[data-store="treatmentType"]')?.value || '',
+    treatmentStart: document.querySelector('[data-store="treatmentStart"]')?.value || '',
+    treatmentMemo: document.querySelector('[data-store="treatmentMemo"]')?.value || ''
+  };
+
+  if(!data.patientName){
+    alert('氏名を入力してください');
+    showPage('p1');
+    return;
+  }
+
+  try{
+    const res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(data)
+    });
+    const json = await res.json();
+    if(json.ok){
+      alert('院内へ送信しました');
+      showPage('p5');
+      renderDone();
+    }else{
+      alert('送信できませんでした: ' + (json.error || '不明なエラー'));
+    }
+  }catch(err){
+    alert('送信エラー: ' + err);
+  }
 }
 async function exportHTML(){
   const data=getData();
