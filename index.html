@@ -1,302 +1,824 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>近視記録入力（患者用）</title>
-<style>
-:root{--bg:#f3f7fa;--card:#fff;--line:#d7e0e7;--text:#33424c;--sub:#6b7b86;--accent:#25b6cf;--accent2:#eaf9fc}
-*{box-sizing:border-box} body{margin:0;font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",sans-serif;background:var(--bg);color:var(--text)}
-.wrap{max-width:760px;margin:0 auto;padding:18px 14px 40px}
-.hero,.page{background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:0 10px 24px rgba(30,60,80,.06)}
-.hero{padding:22px 18px;margin-bottom:14px}.hero h1{margin:0 0 8px;font-size:28px;color:#2c4a57}.hero p{margin:0;line-height:1.8;color:var(--sub);font-size:14px}
-.topActions,.footerActions,.footerActions .right,.row,.stepNav{display:flex;gap:8px;flex-wrap:wrap}
-.stepNav{margin:0 0 14px}.stepBtn{padding:9px 12px;border-radius:999px;border:1px solid var(--line);background:#fff;color:#51636e;font-size:13px}
-.stepBtn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.page{display:none;padding:18px 16px}.page.active{display:block}
-.title{font-size:24px;font-weight:700;margin:0 0 6px;color:#2e4652}.desc{color:var(--sub);font-size:13px;line-height:1.8;margin:0 0 16px}
-.section{border:1px solid #e0e7ec;border-radius:18px;padding:14px 12px;background:#fcfeff;margin-bottom:12px}.section h3{margin:0 0 10px;font-size:16px;color:#35515d}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{margin-bottom:10px}.field label{display:block;margin-bottom:6px;font-size:13px;color:#4a5c66;font-weight:700}
-input,select,textarea{width:100%;border:1px solid #cfd9e0;border-radius:10px;padding:10px 12px;font-size:15px;background:#fff}
-textarea{min-height:90px;resize:vertical}.small{width:96px}.unit{font-size:13px;color:#667783;white-space:nowrap}.note{background:var(--accent2);border:1px solid #d1f0f6;border-radius:14px;padding:10px 12px;color:#45616d;font-size:13px;line-height:1.7;margin-bottom:12px}
-.driveBox{margin-top:10px;padding:12px;border:1px dashed #bfe4ea;border-radius:14px;background:#f9feff;font-size:13px;line-height:1.7;color:#45616d}
-.summary{border:1px dashed #c9d7df;border-radius:16px;background:#fbfdff;padding:14px 12px;white-space:pre-wrap;line-height:1.8;font-size:14px}
-.footerActions{justify-content:space-between;margin-top:16px}.ok{color:#2d7a49;font-weight:700}
-button{border:none;border-radius:12px;padding:11px 16px;font-size:14px;cursor:pointer}.primary{background:var(--accent);color:#fff}.secondary{background:#fff;color:#44606d;border:1px solid var(--line)}
-@media (max-width:640px){.grid2{grid-template-columns:1fr}.hero h1{font-size:24px}.title{font-size:21px}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>近視記録入力（患者用）</title>
+  <style>
+    :root{
+      --bg:#f5f8fc;
+      --card:#ffffff;
+      --line:#d9e2ef;
+      --text:#243447;
+      --sub:#5f7288;
+      --accent:#2b6cb0;
+      --accent2:#e8f1fb;
+      --danger:#b83280;
+      --shadow:0 10px 30px rgba(30, 60, 90, 0.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+      background:linear-gradient(180deg,#f7fbff 0%,#f2f6fb 100%);
+      color:var(--text);
+    }
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+      padding:24px 16px 48px;
+    }
+    .hero{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:24px;
+      margin-bottom:18px;
+    }
+    .hero h1{
+      margin:0 0 10px;
+      font-size:clamp(24px,3.2vw,34px);
+      line-height:1.3;
+    }
+    .hero p{
+      margin:8px 0;
+      color:var(--sub);
+      line-height:1.7;
+    }
+    .top-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+    .progress{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:8px;
+      margin:18px 0 24px;
+    }
+    .step-chip{
+      background:#eef4fb;
+      color:#5a6f87;
+      border:1px solid #dbe6f3;
+      border-radius:999px;
+      padding:10px 12px;
+      font-size:14px;
+      text-align:center;
+      font-weight:700;
+    }
+    .step-chip.active{
+      background:var(--accent);
+      color:#fff;
+      border-color:var(--accent);
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      padding:24px;
+    }
+    .step{
+      display:none;
+    }
+    .step.active{
+      display:block;
+    }
+    h2{
+      margin:0 0 10px;
+      font-size:26px;
+    }
+    h3{
+      margin:22px 0 12px;
+      font-size:18px;
+    }
+    .desc{
+      color:var(--sub);
+      line-height:1.7;
+      margin-bottom:18px;
+    }
+    .grid{
+      display:grid;
+      gap:16px;
+    }
+    .grid-2{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    .grid-3{
+      grid-template-columns:repeat(3,minmax(0,1fr));
+    }
+    @media (max-width:760px){
+      .grid-2,.grid-3,.progress{
+        grid-template-columns:1fr;
+      }
+    }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .field label{
+      font-weight:700;
+      font-size:15px;
+    }
+    .hint{
+      color:var(--sub);
+      font-size:13px;
+      line-height:1.6;
+    }
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    textarea,
+    select{
+      width:100%;
+      border:1px solid #cfd9e7;
+      border-radius:14px;
+      background:#fff;
+      padding:12px 14px;
+      font-size:15px;
+      color:var(--text);
+      outline:none;
+      transition:.2s;
+    }
+    input:focus, textarea:focus, select:focus{
+      border-color:#8db5e3;
+      box-shadow:0 0 0 4px rgba(66,153,225,.12);
+    }
+    textarea{
+      min-height:110px;
+      resize:vertical;
+    }
+    .choice-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+      gap:10px;
+    }
+    .check-card{
+      position:relative;
+    }
+    .check-card input{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      cursor:pointer;
+    }
+    .check-card span{
+      display:block;
+      padding:12px 14px;
+      border:1px solid #d5dfec;
+      border-radius:14px;
+      background:#fff;
+      text-align:center;
+      font-weight:700;
+      transition:.2s;
+    }
+    .check-card input:checked + span{
+      background:#ebf4ff;
+      border-color:#7fb0e8;
+      color:#1f4f82;
+    }
+    .inline{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:22px;
+    }
+    button,.btn{
+      border:none;
+      border-radius:999px;
+      padding:12px 18px;
+      font-size:14px;
+      font-weight:700;
+      cursor:pointer;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      transition:.2s;
+    }
+    .primary{
+      background:var(--accent);
+      color:#fff;
+    }
+    .secondary{
+      background:#edf3fa;
+      color:#35506f;
+      border:1px solid #d7e2ef;
+    }
+    .ghost{
+      background:#fff;
+      color:#35506f;
+      border:1px solid #d7e2ef;
+    }
+    .danger{
+      background:#fff0f7;
+      color:var(--danger);
+      border:1px solid #f3c2dc;
+    }
+    .summary{
+      background:#f8fbff;
+      border:1px solid #dbe7f4;
+      border-radius:18px;
+      padding:18px;
+      line-height:1.8;
+    }
+    .summary-section{
+      margin-bottom:18px;
+    }
+    .summary-section h4{
+      margin:0 0 8px;
+      font-size:17px;
+    }
+    .summary dl{
+      margin:0;
+      display:grid;
+      grid-template-columns:190px 1fr;
+      gap:8px 14px;
+    }
+    .summary dt{
+      font-weight:700;
+      color:#45617f;
+    }
+    .summary dd{
+      margin:0;
+    }
+    .muted{
+      color:var(--sub);
+    }
+    .hidden{
+      display:none !important;
+    }
+    .footer-note{
+      margin-top:14px;
+      color:var(--sub);
+      font-size:14px;
+      line-height:1.7;
+    }
+    .tag{
+      display:inline-block;
+      background:#edf4ff;
+      color:#2c5282;
+      border:1px solid #d4e2f7;
+      padding:5px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      margin:2px 6px 2px 0;
+    }
+  </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="hero">
-    <h1>近視記録入力（患者用）</h1>
-    <p>来院前に分かる範囲をご入力ください。<br>入力後は JSON を保存し、指定の Google Drive へアップロードしてください。</p>
-    <div class="topActions">
-      <button class="primary" onclick="showPage('p1')">入力をはじめる</button>
-      <button class="secondary" onclick="loadLocal()">前回の入力を読み込む</button>
-    </div>
-    <div class="driveBox">入力後は「院内へ送信」で直接送信できます。必要に応じて「JSON保存して提出」を押すと、提出用JSONを保存したあとGoogle Driveの提出先を開きます。</div>
-  </div>
-
-  <div class="stepNav">
-    <button class="stepBtn active" data-page="p1" onclick="showPage('p1')">1. 基本情報</button>
-    <button class="stepBtn" data-page="p2" onclick="showPage('p2')">2. 生活情報</button>
-    <button class="stepBtn" data-page="p3" onclick="showPage('p3')">3. 治療状況</button>
-    <button class="stepBtn" data-page="p4" onclick="showPage('p4')">4. 確認</button>
-    <button class="stepBtn" data-page="p5" onclick="showPage('p5')">5. 完了</button>
-  </div>
-
-  <section id="p1" class="page active">
-    <h2 class="title">基本情報</h2>
-    <p class="desc">患者さんの基本情報を入力してください。診察券番号は任意です。</p>
-    <div class="section">
-      <div class="grid2">
-        <div class="field"><label>氏名</label><input data-store="patientName" placeholder="例：山田 太郎"></div>
-        <div class="field"><label>診察券番号（任意）</label><input data-store="patientId" placeholder="例：12345"></div>
-        <div class="field"><label>年齢</label><input data-store="age" placeholder="例：10"></div>
-        <div class="field"><label>入力日</label><input type="date" data-store="entryDate"></div>
+  <div class="wrap">
+    <section class="hero">
+      <h1>近視記録入力（患者用）</h1>
+      <p>来院前に分かる範囲をご入力ください。</p>
+      <p>入力後は JSON を保存し、指定の Google Drive へアップロードしてください。</p>
+      <div class="top-actions">
+        <button class="primary" type="button" onclick="goToStep(1)">入力をはじめる</button>
+        <button class="secondary" type="button" onclick="loadJsonFile()">前回の入力を読み込む</button>
       </div>
+      <p class="footer-note">
+        入力後は「院内へ送信」で直接送信できます。必要に応じて「JSON保存して提出」を押すと、提出用JSONを保存したあとGoogle Driveの提出先を開きます。
+      </p>
+    </section>
+
+    <div class="progress" id="progressBar">
+      <div class="step-chip active" data-stepchip="1">1. 基本情報</div>
+      <div class="step-chip" data-stepchip="2">2. 生活情報</div>
+      <div class="step-chip" data-stepchip="3">3. 治療状況</div>
+      <div class="step-chip" data-stepchip="4">4. 確認</div>
+      <div class="step-chip" data-stepchip="5">5. 完了</div>
     </div>
-    <div class="footerActions"><div></div><div class="right"><button class="secondary" onclick="saveLocal()">保存</button><button class="primary" onclick="showPage('p2')">次へ</button></div></div>
-  </section>
 
-  <section id="p2" class="page">
-    <h2 class="title">生活情報</h2>
-    <p class="desc">学校の授業以外の近業時間について入力してください。</p>
-    <div class="note">分からない部分は空欄でも大丈夫です。おおよその値で入力してください。</div>
-    <div class="section">
-      <h3>屋外活動</h3>
-      <div class="field"><label>1週間あたりの屋外活動時間</label><div class="row"><input class="small" data-store="outdoorHours" placeholder="数値"><span class="unit">時間 / 週</span></div></div>
-    </div>
-    <div class="section">
-      <h3>近距離作業</h3>
-      <div class="field"><label>書字・読書</label><div class="row"><input class="small" data-store="bookHours" placeholder="数値"><span class="unit">時間 / 日</span><input class="small" data-store="bookDistance" placeholder="数値"><span class="unit">cm</span></div></div>
-      <div class="field"><label>スマホ・タブレット</label><div class="row"><input class="small" data-store="phoneHours" placeholder="数値"><span class="unit">時間 / 日</span><input class="small" data-store="phoneDistance" placeholder="数値"><span class="unit">cm</span></div></div>
-      <div class="field"><label>コンピューター</label><div class="row"><input class="small" data-store="pcHours" placeholder="数値"><span class="unit">時間 / 日</span><input class="small" data-store="pcDistance" placeholder="数値"><span class="unit">cm</span></div></div>
-    </div>
-    <div class="section">
-      <h3>睡眠</h3>
-      <div class="field"><label>夜寝る時間</label><div class="row"><select class="small" data-store="sleepAmPm"><option value=""></option><option value="午後">午後</option><option value="午前">午前</option></select><input class="small" data-store="sleepTime" placeholder="数値"><span class="unit">時頃</span></div></div>
-    </div>
-    <div class="footerActions"><button class="secondary" onclick="showPage('p1')">戻る</button><div class="right"><button class="secondary" onclick="saveLocal()">保存</button><button class="primary" onclick="showPage('p3')">次へ</button></div></div>
-  </section>
+    <section class="card">
+      <div class="step active" data-step="1">
+        <h2>基本情報</h2>
+        <p class="desc">患者さんの基本情報を入力してください。診察券番号は任意です。</p>
 
-  <section id="p3" class="page">
-    <h2 class="title">治療状況</h2>
-    <p class="desc">行っている治療があれば入力してください。未入力でも進めます。</p>
-    <div class="section">
-      <div class="field"><label>現在行っている近視抑制治療</label><select data-store="treatmentType"><option value=""></option><option value="していない">していない</option><option value="点眼">点眼</option><option value="オルソ">オルソ</option><option value="眼鏡">眼鏡</option><option value="その他">その他</option></select></div>
-      <div class="field"><label>開始時期（任意）</label><input data-store="treatmentStart" placeholder="例：2025年4月ごろ"></div>
-      <div class="field"><label>備考（任意）</label><textarea data-store="treatmentMemo" placeholder="治療について気になること、伝えたいことなど"></textarea></div>
-    </div>
-    <div class="footerActions"><button class="secondary" onclick="showPage('p2')">戻る</button><div class="right"><button class="secondary" onclick="saveLocal()">保存</button><button class="primary" onclick="showPage('p4'); renderSummary();">次へ</button></div></div>
-  </section>
+        <div class="grid grid-2">
+          <div class="field">
+            <label for="patientName">氏名</label>
+            <input type="text" id="patientName" placeholder="例：山田 太郎" />
+          </div>
+          <div class="field">
+            <label for="patientId">診察券番号（任意）</label>
+            <input type="text" id="patientId" placeholder="例：123456" />
+          </div>
+          <div class="field">
+            <label for="age">年齢</label>
+            <input type="number" id="age" min="0" max="120" placeholder="例：10" />
+          </div>
+          <div class="field">
+            <label for="inputDate">入力日</label>
+            <input type="date" id="inputDate" />
+          </div>
+        </div>
 
-  <section id="p4" class="page">
-    <h2 class="title">入力内容の確認</h2>
-    <p class="desc">この内容を保存できます。JSON保存（提出用）は院内版で読み込みやすい形式に合わせています。保存後は指定の Google Drive へアップロードしてください。</p>
-    <div class="summary" id="summaryBox"></div>
-    <div class="footerActions"><button class="secondary" onclick="showPage('p3')">戻る</button><div class="right"><button class="secondary" onclick="saveLocal()">保存</button><button class="primary" onclick="submitToClinic()">院内へ送信</button><button class="secondary" onclick="saveJsonAndOpenDrive()">JSON保存して提出</button><button class="secondary" onclick="exportHTML()">HTML保存</button><button class="secondary" onclick="showPage('p5'); renderDone();">完了へ</button></div></div>
-  </section>
+        <div class="actions">
+          <button class="secondary" type="button" onclick="saveDraft()">保存</button>
+          <button class="primary" type="button" onclick="goToStep(2)">次へ</button>
+        </div>
+      </div>
 
-  <section id="p5" class="page">
-    <h2 class="title">入力完了</h2>
-    <p class="desc">入力後は「院内へ送信」で直接送信できます。必要に応じて JSON 保存後に Google Drive へアップロードしてください。</p>
-    <div class="note"><div class="ok">入力が完了しました。</div><div id="doneText" style="margin-top:8px;"></div><div style="margin-top:8px;">Google Drive の提出先URLや共有フォルダ名は、院内から案内されたものをご利用ください。</div></div>
-    <div class="section"><h3>おすすめの提出方法</h3><div class="desc" style="margin:0">1. JSON保存（提出用）を押す<br>2. 保存した JSON ファイルを指定の Google Drive へアップロードする<br>3. 来院時に必要があればこの画面を受付で見せる</div></div>
-    <div class="footerActions"><button class="secondary" onclick="showPage('p4')">戻る</button><div class="right"><button class="secondary" onclick="saveLocal()">保存</button><button class="primary" onclick="submitToClinic()">院内へ送信</button><button class="secondary" onclick="saveJsonAndOpenDrive()">JSON保存して提出</button><button class="secondary" onclick="exportHTML()">HTML保存</button></div></div>
-  </section>
-</div>
+      <div class="step" data-step="2">
+        <h2>生活情報</h2>
+        <p class="desc">
+          学校の授業以外の近業時間について入力してください。<br>
+          分からない部分は空欄でも大丈夫です。おおよその値で入力してください。
+        </p>
 
-<script>
-const storageKey = 'myopia_patient_input_v1';
-const embeddedInitialData = null;
-const DRIVE_SUBMIT_URL = 'https://drive.google.com/drive/folders/1aQvh2o6PILrZkMB-Ipe4MZrPX6xG_nx1?usp=sharing'; // 提出先Google Drive共有フォルダ
-const API_URL = 'https://script.google.com/macros/s/AKfycbzBKI0hPCdKy3qxfx-CTmr87-p42R7j9NvHOyma21o_ITD5w5IPOVDSLHNEWkWt7LbL/exec';
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.stepBtn').forEach(b=>b.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  document.querySelector('.stepBtn[data-page="'+id+'"]').classList.add('active');
-  if(id==='p4') renderSummary();
-  if(id==='p5') renderDone();
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-function getRawData(){
-  const d={};
-  document.querySelectorAll('[data-store]').forEach(el=>d[el.dataset.store]=el.value);
-  return d;
-}
-function getData(){
-  const raw = getRawData();
-  return {
-    patientName: raw.patientName || '',
-    patientId: raw.patientId || '',
-    age: raw.age || '',
-    entryDate: raw.entryDate || '',
-    outdoorHours: raw.outdoorHours || '',
-    bookHours: raw.bookHours || '',
-    bookDistance: raw.bookDistance || '',
-    phoneHours: raw.phoneHours || '',
-    phoneDistance: raw.phoneDistance || '',
-    pcHours: raw.pcHours || '',
-    pcDistance: raw.pcDistance || '',
-    sleepAmPm: raw.sleepAmPm || '',
-    sleepTime: raw.sleepTime || '',
-    treatmentType: raw.treatmentType || '',
-    treatmentStart: raw.treatmentStart || '',
-    treatmentMemo: raw.treatmentMemo || '',
+        <h3>屋外活動</h3>
+        <div class="grid grid-2">
+          <div class="field">
+            <label for="outdoorHoursPerWeek">1週間あたりの屋外活動時間</label>
+            <input type="number" id="outdoorHoursPerWeek" min="0" step="0.5" placeholder="時間 / 週" />
+          </div>
+        </div>
 
-    visit1_age: raw.age || '',
-    visit1_outdoor: raw.outdoorHours || '',
-    visit1_book_h: raw.bookHours || '',
-    visit1_book_cm: raw.bookDistance || '',
-    visit1_phone_h: raw.phoneHours || '',
-    visit1_phone_cm: raw.phoneDistance || '',
-    visit1_pc_h: raw.pcHours || '',
-    visit1_pc_cm: raw.pcDistance || '',
-    visit1_sleep_ampm: raw.sleepAmPm || '',
-    visit1_sleep_time: raw.sleepTime || '',
-    patientMemo: [
-      raw.treatmentType ? ('治療: ' + raw.treatmentType) : '',
-      raw.treatmentStart ? ('開始時期: ' + raw.treatmentStart) : '',
-      raw.treatmentMemo || ''
-    ].filter(Boolean).join(' / ')
-  };
-}
-function setData(d){
-  const map = {
-    patientName: d.patientName,
-    patientId: d.patientId,
-    age: d.age ?? d.visit1_age,
-    entryDate: d.entryDate,
-    outdoorHours: d.outdoorHours ?? d.visit1_outdoor,
-    bookHours: d.bookHours ?? d.visit1_book_h,
-    bookDistance: d.bookDistance ?? d.visit1_book_cm,
-    phoneHours: d.phoneHours ?? d.visit1_phone_h,
-    phoneDistance: d.phoneDistance ?? d.visit1_phone_cm,
-    pcHours: d.pcHours ?? d.visit1_pc_h,
-    pcDistance: d.pcDistance ?? d.visit1_pc_cm,
-    sleepAmPm: d.sleepAmPm ?? d.visit1_sleep_ampm,
-    sleepTime: d.sleepTime ?? d.visit1_sleep_time,
-    treatmentType: d.treatmentType,
-    treatmentStart: d.treatmentStart,
-    treatmentMemo: d.treatmentMemo
-  };
-  document.querySelectorAll('[data-store]').forEach(el=>{
-    if(map[el.dataset.store]!==undefined && map[el.dataset.store]!==null) el.value = map[el.dataset.store];
-  });
-  renderSummary(); renderDone();
-}
-function saveLocal(){
-  localStorage.setItem(storageKey, JSON.stringify(getData()));
-  alert('入力内容をこの端末に保存しました');
-}
-function loadLocal(){
-  const raw=localStorage.getItem(storageKey);
-  if(!raw){ alert('保存データがありません'); return; }
-  try{ setData(JSON.parse(raw)); alert('保存データを読み込みました'); }catch(e){ alert('読み込みできませんでした'); }
-}
-function fileBaseName(){
-  const name=(document.querySelector('[data-store="patientName"]').value||'patient').trim();
-  const date=(document.querySelector('[data-store="entryDate"]').value||'').trim();
-  return (name+(date?'_'+date:'')).replace(/[^\\w\\-ぁ-んァ-ヶ一-龠]/g,'_') || 'patient';
-}
-function exportJSON(){
-  const blob=new Blob([JSON.stringify(getData(),null,2)],{type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=fileBaseName()+'_patient_for_clinic.json'; a.click(); URL.revokeObjectURL(a.href);
-}
-function saveJsonAndOpenDrive(){
-  exportJSON();
-  setTimeout(()=>{
-    window.open(DRIVE_SUBMIT_URL, '_blank');
-  }, 500);
-}
-async function submitToClinic(){
-  const data = {
-    patientName: document.querySelector('[data-store="patientName"]')?.value || '',
-    patientId: document.querySelector('[data-store="patientId"]')?.value || '',
-    age: document.querySelector('[data-store="age"]')?.value || '',
-    entryDate: document.querySelector('[data-store="entryDate"]')?.value || '',
-    outdoorHours: document.querySelector('[data-store="outdoorHours"]')?.value || '',
-    bookHours: document.querySelector('[data-store="bookHours"]')?.value || '',
-    bookDistance: document.querySelector('[data-store="bookDistance"]')?.value || '',
-    phoneHours: document.querySelector('[data-store="phoneHours"]')?.value || '',
-    phoneDistance: document.querySelector('[data-store="phoneDistance"]')?.value || '',
-    pcHours: document.querySelector('[data-store="pcHours"]')?.value || '',
-    pcDistance: document.querySelector('[data-store="pcDistance"]')?.value || '',
-    sleepAmPm: document.querySelector('[data-store="sleepAmPm"]')?.value || '',
-    sleepTime: document.querySelector('[data-store="sleepTime"]')?.value || '',
-    treatmentType: document.querySelector('[data-store="treatmentType"]')?.value || '',
-    treatmentStart: document.querySelector('[data-store="treatmentStart"]')?.value || '',
-    treatmentMemo: document.querySelector('[data-store="treatmentMemo"]')?.value || ''
-  };
+        <h3>近距離作業</h3>
+        <div class="grid grid-3">
+          <div class="field">
+            <label for="readingHours">書字・読書（時間 / 日）</label>
+            <input type="number" id="readingHours" min="0" step="0.5" placeholder="時間 / 日" />
+          </div>
+          <div class="field">
+            <label for="readingDistance">書字・読書（距離 cm）</label>
+            <input type="number" id="readingDistance" min="0" step="1" placeholder="cm" />
+          </div>
+          <div></div>
 
-  if(!data.patientName){
-    alert('氏名を入力してください');
-    showPage('p1');
-    return;
-  }
+          <div class="field">
+            <label for="tabletHours">スマホ・タブレット（時間 / 日）</label>
+            <input type="number" id="tabletHours" min="0" step="0.5" placeholder="時間 / 日" />
+          </div>
+          <div class="field">
+            <label for="tabletDistance">スマホ・タブレット（距離 cm）</label>
+            <input type="number" id="tabletDistance" min="0" step="1" placeholder="cm" />
+          </div>
+          <div></div>
 
-  try{
-    const res = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(data)
-    });
-    const json = await res.json();
-    if(json.ok){
-      alert('院内へ送信しました');
-      showPage('p5');
-      renderDone();
-    }else{
-      alert('送信できませんでした: ' + (json.error || '不明なエラー'));
+          <div class="field">
+            <label for="computerHours">コンピューター（時間 / 日）</label>
+            <input type="number" id="computerHours" min="0" step="0.5" placeholder="時間 / 日" />
+          </div>
+          <div class="field">
+            <label for="computerDistance">コンピューター（距離 cm）</label>
+            <input type="number" id="computerDistance" min="0" step="1" placeholder="cm" />
+          </div>
+          <div></div>
+        </div>
+
+        <h3>睡眠</h3>
+        <div class="grid grid-2">
+          <div class="field">
+            <label for="sleepPeriod">夜寝る時間</label>
+            <div class="inline">
+              <select id="sleepPeriod" style="max-width:140px">
+                <option value="">選択</option>
+                <option value="午後">午後</option>
+                <option value="午前">午前</option>
+              </select>
+              <input type="number" id="sleepHour" min="0" max="12" step="1" placeholder="時頃" style="max-width:180px" />
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="ghost" type="button" onclick="goToStep(1)">戻る</button>
+          <button class="secondary" type="button" onclick="saveDraft()">保存</button>
+          <button class="primary" type="button" onclick="goToStep(3)">次へ</button>
+        </div>
+      </div>
+
+      <div class="step" data-step="3">
+        <h2>治療状況</h2>
+        <p class="desc">行っている治療があれば入力してください。未入力でも進めます。</p>
+
+        <div class="field">
+          <label>現在行っている近視抑制治療</label>
+          <div class="choice-grid">
+            <label class="check-card">
+              <input type="checkbox" name="treatment" value="していない">
+              <span>していない</span>
+            </label>
+            <label class="check-card">
+              <input type="checkbox" name="treatment" value="点眼">
+              <span>点眼</span>
+            </label>
+            <label class="check-card">
+              <input type="checkbox" name="treatment" value="オルソ">
+              <span>オルソ</span>
+            </label>
+            <label class="check-card">
+              <input type="checkbox" name="treatment" value="眼鏡">
+              <span>眼鏡</span>
+            </label>
+            <label class="check-card">
+              <input type="checkbox" name="treatment" value="その他">
+              <span>その他</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="grid grid-2" style="margin-top:18px">
+          <div class="field">
+            <label for="treatmentStart">開始時期（任意）</label>
+            <input type="text" id="treatmentStart" placeholder="例：2025年4月ごろ" />
+          </div>
+        </div>
+
+        <div class="grid grid-2" style="margin-top:8px">
+          <div class="field">
+            <label for="eyeDropStatus">点眼できているか？</label>
+            <select id="eyeDropStatus" onchange="toggleEyeDropOther()">
+              <option value="">選択してください</option>
+              <option value="点眼できている">点眼できている</option>
+              <option value="数回忘れることがある">数回忘れることがある</option>
+              <option value="点眼できていないことが多い">点眼できていないことが多い</option>
+              <option value="その他">その他</option>
+            </select>
+          </div>
+
+          <div class="field hidden" id="eyeDropOtherWrap">
+            <label for="eyeDropOther">その他の内容</label>
+            <input type="text" id="eyeDropOther" placeholder="自由入力" />
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:8px">
+          <label for="remarks">備考（任意）</label>
+          <textarea id="remarks" placeholder="気になることがあればご記入ください"></textarea>
+        </div>
+
+        <div class="actions">
+          <button class="ghost" type="button" onclick="goToStep(2)">戻る</button>
+          <button class="secondary" type="button" onclick="saveDraft()">保存</button>
+          <button class="primary" type="button" onclick="goToStep(4)">次へ</button>
+        </div>
+      </div>
+
+      <div class="step" data-step="4">
+        <h2>入力内容の確認</h2>
+        <p class="desc">
+          この内容を保存できます。JSON保存（提出用）は院内版で読み込みやすい形式に合わせています。保存後は指定の Google Drive へアップロードしてください。
+        </p>
+
+        <div class="summary" id="summaryBox"></div>
+
+        <div class="actions">
+          <button class="ghost" type="button" onclick="goToStep(3)">戻る</button>
+          <button class="secondary" type="button" onclick="saveDraft()">保存</button>
+          <button class="primary" type="button" onclick="sendToClinic()">院内へ送信</button>
+          <button class="secondary" type="button" onclick="saveJson()">JSON保存して提出</button>
+          <button class="secondary" type="button" onclick="saveHtml()">HTML保存</button>
+          <button class="primary" type="button" onclick="goToStep(5)">完了へ</button>
+        </div>
+      </div>
+
+      <div class="step" data-step="5">
+        <h2>入力完了</h2>
+        <p class="desc">
+          入力後は「院内へ送信」で直接送信できます。必要に応じて JSON 保存後に Google Drive へアップロードしてください。
+        </p>
+
+        <div class="summary">
+          <p><strong>入力が完了しました。</strong></p>
+          <p class="muted">Google Drive の提出先URLや共有フォルダ名は、院内から案内されたものをご利用ください。</p>
+
+          <div class="summary-section">
+            <h4>おすすめの提出方法</h4>
+            <ol>
+              <li>JSON保存（提出用）を押す</li>
+              <li>保存した JSON ファイルを指定の Google Drive へアップロードする</li>
+              <li>来院時に必要があればこの画面を受付で見せる</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="ghost" type="button" onclick="goToStep(4)">戻る</button>
+          <button class="secondary" type="button" onclick="saveDraft()">保存</button>
+          <button class="primary" type="button" onclick="sendToClinic()">院内へ送信</button>
+          <button class="secondary" type="button" onclick="saveJson()">JSON保存して提出</button>
+          <button class="secondary" type="button" onclick="saveHtml()">HTML保存</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <input type="file" id="jsonLoader" accept=".json,application/json" class="hidden" />
+
+  <script>
+    const STORAGE_KEY = "patient_myopia_record_draft_v2";
+    const DRIVE_UPLOAD_URL = "";
+    let currentStep = 1;
+
+    function todayString() {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${y}-${m}-${day}`;
     }
-  }catch(err){
-    alert('送信エラー: ' + err);
-  }
-}
-async function exportHTML(){
-  const data=getData();
-  let htmlText=document.documentElement.outerHTML;
-  htmlText='<!DOCTYPE html>\n'+htmlText.replace('const embeddedInitialData = null;','const embeddedInitialData = '+JSON.stringify(data,null,2)+';');
-  const suggestedName=fileBaseName()+'_patient_input.html';
-  if(window.showSaveFilePicker){
-    try{
-      const handle=await window.showSaveFilePicker({suggestedName,types:[{description:'HTML files',accept:{'text/html':['.html']}}]});
-      const writable=await handle.createWritable(); await writable.write(htmlText); await writable.close(); return;
-    }catch(e){ if(e && e.name==='AbortError') return; }
-  }
-  const blob=new Blob([htmlText],{type:'text/html'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=suggestedName; a.click(); URL.revokeObjectURL(a.href);
-}
-function renderSummary(){
-  const d=getRawData();
-  const text=`【基本情報】
-氏名：${d.patientName||''}
-診察券番号：${d.patientId||''}
-年齢：${d.age||''}
-入力日：${d.entryDate||''}
 
-【生活情報】
-屋外活動：${d.outdoorHours||''} 時間/週
-書字・読書：${d.bookHours||''} 時間/日　${d.bookDistance||''} cm
-スマホ・タブレット：${d.phoneHours||''} 時間/日　${d.phoneDistance||''} cm
-コンピューター：${d.pcHours||''} 時間/日　${d.pcDistance||''} cm
-夜寝る時間：${d.sleepAmPm||''} ${d.sleepTime||''} 時頃
+    function init() {
+      if (!document.getElementById("inputDate").value) {
+        document.getElementById("inputDate").value = todayString();
+      }
 
-【治療状況】
-治療：${d.treatmentType||''}
-開始時期：${d.treatmentStart||''}
-備考：${d.treatmentMemo||''}`;
-  document.getElementById('summaryBox').textContent=text;
-}
-function renderDone(){
-  const d=getData();
-  document.getElementById('doneText').textContent=(d.patientName||'患者')+'さんの入力内容が保存できる状態です。JSON保存（提出用）後に、指定の Google Drive へアップロードしてください。';
-}
-document.addEventListener('input',()=>{renderSummary();renderDone();});
-if(embeddedInitialData){ setData(embeddedInitialData); }
-</script>
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          setFormData(data);
+        } catch (e) {
+          console.warn("保存データの読み込みに失敗しました", e);
+        }
+      }
+
+      bindTreatmentLogic();
+      toggleEyeDropOther();
+      updateSummary();
+      goToStep(1);
+    }
+
+    function bindTreatmentLogic() {
+      const treatments = document.querySelectorAll('input[name="treatment"]');
+
+      treatments.forEach(cb => {
+        cb.addEventListener("change", () => {
+          const none = Array.from(treatments).find(el => el.value === "していない");
+
+          if (cb.value === "していない" && cb.checked) {
+            treatments.forEach(el => {
+              if (el.value !== "していない") el.checked = false;
+            });
+          } else if (cb.value !== "していない" && cb.checked && none) {
+            none.checked = false;
+          }
+
+          updateSummary();
+        });
+      });
+
+      document.querySelectorAll("input, select, textarea").forEach(el => {
+        el.addEventListener("input", updateSummary);
+        el.addEventListener("change", updateSummary);
+      });
+    }
+
+    function goToStep(step) {
+      currentStep = step;
+
+      document.querySelectorAll(".step").forEach(el => {
+        el.classList.toggle("active", Number(el.dataset.step) === step);
+      });
+
+      document.querySelectorAll(".step-chip").forEach(el => {
+        el.classList.toggle("active", Number(el.dataset.stepchip) === step);
+      });
+
+      if (step === 4 || step === 5) updateSummary();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function toggleEyeDropOther() {
+      const select = document.getElementById("eyeDropStatus");
+      const wrap = document.getElementById("eyeDropOtherWrap");
+      const input = document.getElementById("eyeDropOther");
+
+      const isOther = select.value === "その他";
+      wrap.classList.toggle("hidden", !isOther);
+
+      if (!isOther) {
+        input.value = "";
+      }
+
+      updateSummary();
+    }
+
+    function getTreatments() {
+      return Array.from(document.querySelectorAll('input[name="treatment"]:checked')).map(el => el.value);
+    }
+
+    function getFormData() {
+      const eyeDropStatus = document.getElementById("eyeDropStatus").value;
+
+      return {
+        basicInfo: {
+          patientName: document.getElementById("patientName").value.trim(),
+          patientId: document.getElementById("patientId").value.trim(),
+          age: document.getElementById("age").value,
+          inputDate: document.getElementById("inputDate").value
+        },
+        lifestyle: {
+          outdoorHoursPerWeek: document.getElementById("outdoorHoursPerWeek").value,
+          readingHours: document.getElementById("readingHours").value,
+          readingDistance: document.getElementById("readingDistance").value,
+          tabletHours: document.getElementById("tabletHours").value,
+          tabletDistance: document.getElementById("tabletDistance").value,
+          computerHours: document.getElementById("computerHours").value,
+          computerDistance: document.getElementById("computerDistance").value,
+          sleepPeriod: document.getElementById("sleepPeriod").value,
+          sleepHour: document.getElementById("sleepHour").value
+        },
+        treatment: {
+          currentTreatments: getTreatments(),
+          treatmentStart: document.getElementById("treatmentStart").value.trim(),
+          eyeDropStatus: eyeDropStatus,
+          eyeDropOther: eyeDropStatus === "その他"
+            ? document.getElementById("eyeDropOther").value.trim()
+            : "",
+          remarks: document.getElementById("remarks").value.trim()
+        },
+        meta: {
+          savedAt: new Date().toISOString()
+        }
+      };
+    }
+
+    function setFormData(data) {
+      if (!data) return;
+
+      const setValue = (id, value) => {
+        const el = document.getElementById(id);
+        if (el && value !== undefined && value !== null) el.value = value;
+      };
+
+      setValue("patientName", data.basicInfo?.patientName || "");
+      setValue("patientId", data.basicInfo?.patientId || "");
+      setValue("age", data.basicInfo?.age || "");
+      setValue("inputDate", data.basicInfo?.inputDate || todayString());
+
+      setValue("outdoorHoursPerWeek", data.lifestyle?.outdoorHoursPerWeek || "");
+      setValue("readingHours", data.lifestyle?.readingHours || "");
+      setValue("readingDistance", data.lifestyle?.readingDistance || "");
+      setValue("tabletHours", data.lifestyle?.tabletHours || "");
+      setValue("tabletDistance", data.lifestyle?.tabletDistance || "");
+      setValue("computerHours", data.lifestyle?.computerHours || "");
+      setValue("computerDistance", data.lifestyle?.computerDistance || "");
+      setValue("sleepPeriod", data.lifestyle?.sleepPeriod || "");
+      setValue("sleepHour", data.lifestyle?.sleepHour || "");
+
+      const selectedTreatments = data.treatment?.currentTreatments || [];
+      document.querySelectorAll('input[name="treatment"]').forEach(cb => {
+        cb.checked = selectedTreatments.includes(cb.value);
+      });
+
+      setValue("treatmentStart", data.treatment?.treatmentStart || "");
+      setValue("eyeDropStatus", data.treatment?.eyeDropStatus || "");
+      setValue("eyeDropOther", data.treatment?.eyeDropOther || "");
+      setValue("remarks", data.treatment?.remarks || "");
+
+      toggleEyeDropOther();
+      updateSummary();
+    }
+
+    function saveDraft() {
+      const data = getFormData();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      alert("入力内容を保存しました。");
+    }
+
+    function downloadTextFile(filename, text, mimeType) {
+      const blob = new Blob([text], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function buildFileBaseName() {
+      const name = document.getElementById("patientName").value.trim() || "patient";
+      const date = document.getElementById("inputDate").value || todayString();
+      return `${name}_近視記録_${date}`;
+    }
+
+    function saveJson() {
+      const data = getFormData();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      downloadTextFile(`${buildFileBaseName()}.json`, JSON.stringify(data, null, 2), "application/json");
+
+      if (DRIVE_UPLOAD_URL) {
+        window.open(DRIVE_UPLOAD_URL, "_blank");
+      }
+    }
+
+    function saveHtml() {
+      downloadTextFile(`${buildFileBaseName()}.html`, document.documentElement.outerHTML, "text/html");
+    }
+
+    function loadJsonFile() {
+      document.getElementById("jsonLoader").click();
+    }
+
+    document.getElementById("jsonLoader").addEventListener("change", function (e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        try {
+          const data = JSON.parse(event.target.result);
+          setFormData(data);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          alert("前回の入力を読み込みました。");
+        } catch (err) {
+          alert("JSONの読み込みに失敗しました。");
+          console.error(err);
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = "";
+    });
+
+    function escapeHtml(str) {
+      return String(str ?? "")
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+    }
+
+    function formatValue(value, suffix = "") {
+      return value !== undefined && value !== null && value !== ""
+        ? `${escapeHtml(value)}${suffix}`
+        : '<span class="muted">未入力</span>';
+    }
+
+    function updateSummary() {
+      const data = getFormData();
+
+      const eyeDropText =
+        data.treatment.eyeDropStatus === "その他"
+          ? `その他：${escapeHtml(data.treatment.eyeDropOther || "未入力")}`
+          : (data.treatment.eyeDropStatus
+              ? escapeHtml(data.treatment.eyeDropStatus)
+              : '<span class="muted">未入力</span>');
+
+      const treatmentTags = data.treatment.currentTreatments.length
+        ? data.treatment.currentTreatments.map(v => `<span class="tag">${escapeHtml(v)}</span>`).join("")
+        : '<span class="muted">未入力</span>';
+
+      const html = `
+        <div class="summary-section">
+          <h4>基本情報</h4>
+          <dl>
+            <dt>氏名</dt><dd>${formatValue(data.basicInfo.patientName)}</dd>
+            <dt>診察券番号</dt><dd>${formatValue(data.basicInfo.patientId)}</dd>
+            <dt>年齢</dt><dd>${formatValue(data.basicInfo.age, "歳")}</dd>
+            <dt>入力日</dt><dd>${formatValue(data.basicInfo.inputDate)}</dd>
+          </dl>
+        </div>
+
+        <div class="summary-section">
+          <h4>生活情報</h4>
+          <dl>
+            <dt>屋外活動時間</dt><dd>${formatValue(data.lifestyle.outdoorHoursPerWeek, " 時間 / 週")}</dd>
+            <dt>書字・読書</dt><dd>${formatValue(data.lifestyle.readingHours, " 時間 / 日")} / ${formatValue(data.lifestyle.readingDistance, " cm")}</dd>
+            <dt>スマホ・タブレット</dt><dd>${formatValue(data.lifestyle.tabletHours, " 時間 / 日")} / ${formatValue(data.lifestyle.tabletDistance, " cm")}</dd>
+            <dt>コンピューター</dt><dd>${formatValue(data.lifestyle.computerHours, " 時間 / 日")} / ${formatValue(data.lifestyle.computerDistance, " cm")}</dd>
+            <dt>夜寝る時間</dt><dd>${data.lifestyle.sleepPeriod || data.lifestyle.sleepHour ? `${formatValue(data.lifestyle.sleepPeriod)} ${formatValue(data.lifestyle.sleepHour, " 時頃")}` : '<span class="muted">未入力</span>'}</dd>
+          </dl>
+        </div>
+
+        <div class="summary-section">
+          <h4>治療状況</h4>
+          <dl>
+            <dt>現在行っている近視抑制治療</dt><dd>${treatmentTags}</dd>
+            <dt>開始時期</dt><dd>${formatValue(data.treatment.treatmentStart)}</dd>
+            <dt>点眼できているか？</dt><dd>${eyeDropText}</dd>
+            <dt>備考</dt><dd>${formatValue(data.treatment.remarks)}</dd>
+          </dl>
+        </div>
+      `;
+
+      document.getElementById("summaryBox").innerHTML = html;
+    }
+
+    function sendToClinic() {
+      const data = getFormData();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      alert("院内送信ボタンが押されました。送信先URLやGAS連携がある場合は、この関数に fetch 処理を追加してください。");
+    }
+
+    init();
+  </script>
 </body>
 </html>
