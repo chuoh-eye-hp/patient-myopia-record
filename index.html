@@ -12,10 +12,7 @@
       --text:#243447;
       --sub:#5f7288;
       --accent:#2b6cb0;
-      --accent2:#e8f1fb;
-      --danger:#b83280;
       --shadow:0 10px 30px rgba(30, 60, 90, 0.08);
-      --radius:18px;
     }
     *{box-sizing:border-box}
     body{
@@ -29,25 +26,23 @@
       margin:0 auto;
       padding:24px 16px 48px;
     }
-    .hero{
-      background:var(--card);
+    .hero,.card{
+      background:#fff;
       border:1px solid var(--line);
       border-radius:24px;
       box-shadow:var(--shadow);
       padding:24px;
-      margin-bottom:18px;
     }
+    .hero{ margin-bottom:18px; }
     .hero h1{
       margin:0 0 10px;
       font-size:clamp(24px,3.2vw,34px);
-      line-height:1.3;
     }
-    .hero p{
-      margin:8px 0;
+    .hero p,.desc,.footer-note,.muted{
       color:var(--sub);
       line-height:1.7;
     }
-    .top-actions{
+    .top-actions,.actions{
       display:flex;
       flex-wrap:wrap;
       gap:10px;
@@ -74,46 +69,15 @@
       color:#fff;
       border-color:var(--accent);
     }
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:24px;
-      box-shadow:var(--shadow);
-      padding:24px;
-    }
-    .step{
-      display:none;
-    }
-    .step.active{
-      display:block;
-    }
-    h2{
-      margin:0 0 10px;
-      font-size:26px;
-    }
-    h3{
-      margin:22px 0 12px;
-      font-size:18px;
-    }
-    .desc{
-      color:var(--sub);
-      line-height:1.7;
-      margin-bottom:18px;
-    }
-    .grid{
-      display:grid;
-      gap:16px;
-    }
-    .grid-2{
-      grid-template-columns:repeat(2,minmax(0,1fr));
-    }
-    .grid-3{
-      grid-template-columns:repeat(3,minmax(0,1fr));
-    }
+    .step{ display:none; }
+    .step.active{ display:block; }
+    h2{ margin:0 0 10px; font-size:26px; }
+    h3{ margin:22px 0 12px; font-size:18px; }
+    .grid{ display:grid; gap:16px; }
+    .grid-2{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .grid-3{ grid-template-columns:repeat(3,minmax(0,1fr)); }
     @media (max-width:760px){
-      .grid-2,.grid-3,.progress{
-        grid-template-columns:1fr;
-      }
+      .grid-2,.grid-3,.progress{ grid-template-columns:1fr; }
     }
     .field{
       display:flex;
@@ -123,11 +87,6 @@
     .field label{
       font-weight:700;
       font-size:15px;
-    }
-    .hint{
-      color:var(--sub);
-      font-size:13px;
-      line-height:1.6;
     }
     input[type="text"],
     input[type="number"],
@@ -142,11 +101,6 @@
       font-size:15px;
       color:var(--text);
       outline:none;
-      transition:.2s;
-    }
-    input:focus, textarea:focus, select:focus{
-      border-color:#8db5e3;
-      box-shadow:0 0 0 4px rgba(66,153,225,.12);
     }
     textarea{
       min-height:110px;
@@ -174,7 +128,6 @@
       background:#fff;
       text-align:center;
       font-weight:700;
-      transition:.2s;
     }
     .check-card input:checked + span{
       background:#ebf4ff;
@@ -187,45 +140,21 @@
       align-items:center;
       flex-wrap:wrap;
     }
-    .actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:22px;
-    }
-    button,.btn{
+    button{
       border:none;
       border-radius:999px;
       padding:12px 18px;
       font-size:14px;
       font-weight:700;
       cursor:pointer;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      transition:.2s;
     }
-    .primary{
-      background:var(--accent);
-      color:#fff;
-    }
-    .secondary{
+    .primary{ background:var(--accent); color:#fff; }
+    .secondary,.ghost{
       background:#edf3fa;
       color:#35506f;
       border:1px solid #d7e2ef;
     }
-    .ghost{
-      background:#fff;
-      color:#35506f;
-      border:1px solid #d7e2ef;
-    }
-    .danger{
-      background:#fff0f7;
-      color:var(--danger);
-      border:1px solid #f3c2dc;
-    }
+    .ghost{ background:#fff; }
     .summary{
       background:#f8fbff;
       border:1px solid #dbe7f4;
@@ -233,13 +162,8 @@
       padding:18px;
       line-height:1.8;
     }
-    .summary-section{
-      margin-bottom:18px;
-    }
-    .summary-section h4{
-      margin:0 0 8px;
-      font-size:17px;
-    }
+    .summary-section{ margin-bottom:18px; }
+    .summary-section h4{ margin:0 0 8px; font-size:17px; }
     .summary dl{
       margin:0;
       display:grid;
@@ -250,21 +174,8 @@
       font-weight:700;
       color:#45617f;
     }
-    .summary dd{
-      margin:0;
-    }
-    .muted{
-      color:var(--sub);
-    }
-    .hidden{
-      display:none !important;
-    }
-    .footer-note{
-      margin-top:14px;
-      color:var(--sub);
-      font-size:14px;
-      line-height:1.7;
-    }
+    .summary dd{ margin:0; }
+    .hidden{ display:none !important; }
     .tag{
       display:inline-block;
       background:#edf4ff;
@@ -283,17 +194,13 @@
     <section class="hero">
       <h1>近視記録入力（患者用）</h1>
       <p>来院前に分かる範囲をご入力ください。</p>
-      <p>入力後は JSON を保存し、指定の Google Drive へアップロードしてください。</p>
       <div class="top-actions">
         <button class="primary" type="button" onclick="goToStep(1)">入力をはじめる</button>
         <button class="secondary" type="button" onclick="loadJsonFile()">前回の入力を読み込む</button>
       </div>
-      <p class="footer-note">
-        入力後は「院内へ送信」で直接送信できます。必要に応じて「JSON保存して提出」を押すと、提出用JSONを保存したあとGoogle Driveの提出先を開きます。
-      </p>
     </section>
 
-    <div class="progress" id="progressBar">
+    <div class="progress">
       <div class="step-chip active" data-stepchip="1">1. 基本情報</div>
       <div class="step-chip" data-stepchip="2">2. 生活情報</div>
       <div class="step-chip" data-stepchip="3">3. 治療状況</div>
@@ -305,26 +212,24 @@
       <div class="step active" data-step="1">
         <h2>基本情報</h2>
         <p class="desc">患者さんの基本情報を入力してください。診察券番号は任意です。</p>
-
         <div class="grid grid-2">
           <div class="field">
             <label for="patientName">氏名</label>
-            <input type="text" id="patientName" placeholder="例：山田 太郎" />
+            <input type="text" id="patientName" />
           </div>
           <div class="field">
             <label for="patientId">診察券番号（任意）</label>
-            <input type="text" id="patientId" placeholder="例：123456" />
+            <input type="text" id="patientId" />
           </div>
           <div class="field">
             <label for="age">年齢</label>
-            <input type="number" id="age" min="0" max="120" placeholder="例：10" />
+            <input type="number" id="age" min="0" max="120" />
           </div>
           <div class="field">
             <label for="inputDate">入力日</label>
             <input type="date" id="inputDate" />
           </div>
         </div>
-
         <div class="actions">
           <button class="secondary" type="button" onclick="saveDraft()">保存</button>
           <button class="primary" type="button" onclick="goToStep(2)">次へ</button>
@@ -333,10 +238,7 @@
 
       <div class="step" data-step="2">
         <h2>生活情報</h2>
-        <p class="desc">
-          学校の授業以外の近業時間について入力してください。<br>
-          分からない部分は空欄でも大丈夫です。おおよその値で入力してください。
-        </p>
+        <p class="desc">学校の授業以外の近業時間について入力してください。</p>
 
         <h3>屋外活動</h3>
         <div class="grid grid-2">
@@ -350,31 +252,31 @@
         <div class="grid grid-3">
           <div class="field">
             <label for="readingHours">書字・読書（時間 / 日）</label>
-            <input type="number" id="readingHours" min="0" step="0.5" placeholder="時間 / 日" />
+            <input type="number" id="readingHours" min="0" step="0.5" />
           </div>
           <div class="field">
             <label for="readingDistance">書字・読書（距離 cm）</label>
-            <input type="number" id="readingDistance" min="0" step="1" placeholder="cm" />
+            <input type="number" id="readingDistance" min="0" step="1" />
           </div>
           <div></div>
 
           <div class="field">
             <label for="tabletHours">スマホ・タブレット（時間 / 日）</label>
-            <input type="number" id="tabletHours" min="0" step="0.5" placeholder="時間 / 日" />
+            <input type="number" id="tabletHours" min="0" step="0.5" />
           </div>
           <div class="field">
             <label for="tabletDistance">スマホ・タブレット（距離 cm）</label>
-            <input type="number" id="tabletDistance" min="0" step="1" placeholder="cm" />
+            <input type="number" id="tabletDistance" min="0" step="1" />
           </div>
           <div></div>
 
           <div class="field">
             <label for="computerHours">コンピューター（時間 / 日）</label>
-            <input type="number" id="computerHours" min="0" step="0.5" placeholder="時間 / 日" />
+            <input type="number" id="computerHours" min="0" step="0.5" />
           </div>
           <div class="field">
             <label for="computerDistance">コンピューター（距離 cm）</label>
-            <input type="number" id="computerDistance" min="0" step="1" placeholder="cm" />
+            <input type="number" id="computerDistance" min="0" step="1" />
           </div>
           <div></div>
         </div>
@@ -403,31 +305,16 @@
 
       <div class="step" data-step="3">
         <h2>治療状況</h2>
-        <p class="desc">行っている治療があれば入力してください。未入力でも進めます。</p>
+        <p class="desc">行っている治療があれば入力してください。</p>
 
         <div class="field">
           <label>現在行っている近視抑制治療</label>
           <div class="choice-grid">
-            <label class="check-card">
-              <input type="checkbox" name="treatment" value="していない">
-              <span>していない</span>
-            </label>
-            <label class="check-card">
-              <input type="checkbox" name="treatment" value="点眼">
-              <span>点眼</span>
-            </label>
-            <label class="check-card">
-              <input type="checkbox" name="treatment" value="オルソ">
-              <span>オルソ</span>
-            </label>
-            <label class="check-card">
-              <input type="checkbox" name="treatment" value="眼鏡">
-              <span>眼鏡</span>
-            </label>
-            <label class="check-card">
-              <input type="checkbox" name="treatment" value="その他">
-              <span>その他</span>
-            </label>
+            <label class="check-card"><input type="checkbox" name="treatment" value="していない"><span>していない</span></label>
+            <label class="check-card"><input type="checkbox" name="treatment" value="点眼"><span>点眼</span></label>
+            <label class="check-card"><input type="checkbox" name="treatment" value="オルソ"><span>オルソ</span></label>
+            <label class="check-card"><input type="checkbox" name="treatment" value="眼鏡"><span>眼鏡</span></label>
+            <label class="check-card"><input type="checkbox" name="treatment" value="その他"><span>その他</span></label>
           </div>
         </div>
 
@@ -458,7 +345,7 @@
 
         <div class="field" style="margin-top:8px">
           <label for="remarks">備考（任意）</label>
-          <textarea id="remarks" placeholder="気になることがあればご記入ください"></textarea>
+          <textarea id="remarks"></textarea>
         </div>
 
         <div class="actions">
@@ -470,10 +357,6 @@
 
       <div class="step" data-step="4">
         <h2>入力内容の確認</h2>
-        <p class="desc">
-          この内容を保存できます。JSON保存（提出用）は院内版で読み込みやすい形式に合わせています。保存後は指定の Google Drive へアップロードしてください。
-        </p>
-
         <div class="summary" id="summaryBox"></div>
 
         <div class="actions">
@@ -488,30 +371,11 @@
 
       <div class="step" data-step="5">
         <h2>入力完了</h2>
-        <p class="desc">
-          入力後は「院内へ送信」で直接送信できます。必要に応じて JSON 保存後に Google Drive へアップロードしてください。
-        </p>
-
-        <div class="summary">
-          <p><strong>入力が完了しました。</strong></p>
-          <p class="muted">Google Drive の提出先URLや共有フォルダ名は、院内から案内されたものをご利用ください。</p>
-
-          <div class="summary-section">
-            <h4>おすすめの提出方法</h4>
-            <ol>
-              <li>JSON保存（提出用）を押す</li>
-              <li>保存した JSON ファイルを指定の Google Drive へアップロードする</li>
-              <li>来院時に必要があればこの画面を受付で見せる</li>
-            </ol>
-          </div>
-        </div>
-
+        <p class="desc">送信または保存が完了したら、この画面を閉じてください。</p>
         <div class="actions">
           <button class="ghost" type="button" onclick="goToStep(4)">戻る</button>
-          <button class="secondary" type="button" onclick="saveDraft()">保存</button>
           <button class="primary" type="button" onclick="sendToClinic()">院内へ送信</button>
           <button class="secondary" type="button" onclick="saveJson()">JSON保存して提出</button>
-          <button class="secondary" type="button" onclick="saveHtml()">HTML保存</button>
         </div>
       </div>
     </section>
@@ -520,8 +384,8 @@
   <input type="file" id="jsonLoader" accept=".json,application/json" class="hidden" />
 
   <script>
-    const STORAGE_KEY = "patient_myopia_record_draft_v2";
-    const DRIVE_UPLOAD_URL = "";
+    const STORAGE_KEY = "patient_myopia_record_draft_v3";
+    const GAS_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzHxd6OcI5peqhADZxFhMBuNOchqHrveSbhyPw3TV3WIk3F894va_4k9W9wsWX9tCLt/exec";
     let currentStep = 1;
 
     function todayString() {
@@ -540,10 +404,9 @@
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         try {
-          const data = JSON.parse(saved);
-          setFormData(data);
+          setFormData(JSON.parse(saved));
         } catch (e) {
-          console.warn("保存データの読み込みに失敗しました", e);
+          console.warn(e);
         }
       }
 
@@ -559,7 +422,6 @@
       treatments.forEach(cb => {
         cb.addEventListener("change", () => {
           const none = Array.from(treatments).find(el => el.value === "していない");
-
           if (cb.value === "していない" && cb.checked) {
             treatments.forEach(el => {
               if (el.value !== "していない") el.checked = false;
@@ -567,7 +429,6 @@
           } else if (cb.value !== "していない" && cb.checked && none) {
             none.checked = false;
           }
-
           updateSummary();
         });
       });
@@ -580,15 +441,12 @@
 
     function goToStep(step) {
       currentStep = step;
-
       document.querySelectorAll(".step").forEach(el => {
         el.classList.toggle("active", Number(el.dataset.step) === step);
       });
-
       document.querySelectorAll(".step-chip").forEach(el => {
         el.classList.toggle("active", Number(el.dataset.stepchip) === step);
       });
-
       if (step === 4 || step === 5) updateSummary();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -597,14 +455,9 @@
       const select = document.getElementById("eyeDropStatus");
       const wrap = document.getElementById("eyeDropOtherWrap");
       const input = document.getElementById("eyeDropOther");
-
       const isOther = select.value === "その他";
       wrap.classList.toggle("hidden", !isOther);
-
-      if (!isOther) {
-        input.value = "";
-      }
-
+      if (!isOther) input.value = "";
       updateSummary();
     }
 
@@ -614,7 +467,6 @@
 
     function getFormData() {
       const eyeDropStatus = document.getElementById("eyeDropStatus").value;
-
       return {
         basicInfo: {
           patientName: document.getElementById("patientName").value.trim(),
@@ -637,9 +489,7 @@
           currentTreatments: getTreatments(),
           treatmentStart: document.getElementById("treatmentStart").value.trim(),
           eyeDropStatus: eyeDropStatus,
-          eyeDropOther: eyeDropStatus === "その他"
-            ? document.getElementById("eyeDropOther").value.trim()
-            : "",
+          eyeDropOther: eyeDropStatus === "その他" ? document.getElementById("eyeDropOther").value.trim() : "",
           remarks: document.getElementById("remarks").value.trim()
         },
         meta: {
@@ -649,8 +499,6 @@
     }
 
     function setFormData(data) {
-      if (!data) return;
-
       const setValue = (id, value) => {
         const el = document.getElementById(id);
         if (el && value !== undefined && value !== null) el.value = value;
@@ -713,10 +561,6 @@
       const data = getFormData();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       downloadTextFile(`${buildFileBaseName()}.json`, JSON.stringify(data, null, 2), "application/json");
-
-      if (DRIVE_UPLOAD_URL) {
-        window.open(DRIVE_UPLOAD_URL, "_blank");
-      }
     }
 
     function saveHtml() {
@@ -730,7 +574,6 @@
     document.getElementById("jsonLoader").addEventListener("change", function (e) {
       const file = e.target.files[0];
       if (!file) return;
-
       const reader = new FileReader();
       reader.onload = function (event) {
         try {
@@ -740,7 +583,6 @@
           alert("前回の入力を読み込みました。");
         } catch (err) {
           alert("JSONの読み込みに失敗しました。");
-          console.error(err);
         }
       };
       reader.readAsText(file);
@@ -764,19 +606,16 @@
 
     function updateSummary() {
       const data = getFormData();
-
       const eyeDropText =
         data.treatment.eyeDropStatus === "その他"
           ? `その他：${escapeHtml(data.treatment.eyeDropOther || "未入力")}`
-          : (data.treatment.eyeDropStatus
-              ? escapeHtml(data.treatment.eyeDropStatus)
-              : '<span class="muted">未入力</span>');
+          : (data.treatment.eyeDropStatus ? escapeHtml(data.treatment.eyeDropStatus) : '<span class="muted">未入力</span>');
 
       const treatmentTags = data.treatment.currentTreatments.length
         ? data.treatment.currentTreatments.map(v => `<span class="tag">${escapeHtml(v)}</span>`).join("")
         : '<span class="muted">未入力</span>';
 
-      const html = `
+      document.getElementById("summaryBox").innerHTML = `
         <div class="summary-section">
           <h4>基本情報</h4>
           <dl>
@@ -786,7 +625,6 @@
             <dt>入力日</dt><dd>${formatValue(data.basicInfo.inputDate)}</dd>
           </dl>
         </div>
-
         <div class="summary-section">
           <h4>生活情報</h4>
           <dl>
@@ -797,7 +635,6 @@
             <dt>夜寝る時間</dt><dd>${data.lifestyle.sleepPeriod || data.lifestyle.sleepHour ? `${formatValue(data.lifestyle.sleepPeriod)} ${formatValue(data.lifestyle.sleepHour, " 時頃")}` : '<span class="muted">未入力</span>'}</dd>
           </dl>
         </div>
-
         <div class="summary-section">
           <h4>治療状況</h4>
           <dl>
@@ -808,14 +645,48 @@
           </dl>
         </div>
       `;
-
-      document.getElementById("summaryBox").innerHTML = html;
     }
 
-    function sendToClinic() {
+    async function sendToClinic() {
       const data = getFormData();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      alert("院内送信ボタンが押されました。送信先URLやGAS連携がある場合は、この関数に fetch 処理を追加してください。");
+
+      if (!GAS_WEBAPP_URL || GAS_WEBAPP_URL.includes("ここにApps Script")) {
+        alert("GAS_WEBAPP_URL に Apps Script のWebアプリURLを設定してください。");
+        return;
+      }
+
+      try {
+        const response = await fetch(GAS_WEBAPP_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(data)
+        });
+
+        const resultText = await response.text();
+
+        if (!response.ok) {
+          throw new Error(resultText || "送信に失敗しました。");
+        }
+
+        let result;
+        try {
+          result = JSON.parse(resultText);
+        } catch {
+          result = { ok: true };
+        }
+
+        if (result.ok === false) {
+          throw new Error(result.error || "送信に失敗しました。");
+        }
+
+        alert("院内へ送信しました。");
+      } catch (error) {
+        console.error(error);
+        alert("送信に失敗しました。Apps Scriptの公開設定、URL、responsesシート名を確認してください。");
+      }
     }
 
     init();
