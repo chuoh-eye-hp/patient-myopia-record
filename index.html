@@ -187,7 +187,49 @@
       font-weight:700;
       margin:2px 6px 2px 0;
     }
-  </style>
+  
+    .hospitalFooter{
+      position:fixed;
+      right:14px;
+      bottom:10px;
+      z-index:20;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      background:rgba(255,255,255,.92);
+      border:1px solid #d9dfe4;
+      border-radius:14px;
+      padding:8px 12px;
+      box-shadow:0 6px 18px rgba(45,78,97,.10);
+      pointer-events:none;
+    }
+    .hospitalFooter img{
+      width:44px;
+      height:auto;
+      display:block;
+    }
+    .hospitalFooterText{
+      font-size:12px;
+      line-height:1.35;
+      color:#3b4a54;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    @media print{
+      .hospitalFooter{
+        right:6mm;
+        bottom:5mm;
+        background:rgba(255,255,255,.96);
+        border-radius:10px;
+        padding:4px 8px;
+        box-shadow:none;
+      }
+      .hospitalFooter img{width:30px}
+      .hospitalFooterText{font-size:8.5px; line-height:1.2}
+    }
+
+</style>
 </head>
 <body>
   <div class="wrap">
@@ -714,5 +756,11 @@
 
     init();
   </script>
+
+  <div class="hospitalFooter" aria-hidden="true">
+    <img src="data:image/jpeg;base64,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" alt="宮崎中央眼科病院ロゴ">
+    <div class="hospitalFooterText">社会医療法人　慶明会<br>宮崎中央眼科病院</div>
+  </div>
+
 </body>
 </html>
